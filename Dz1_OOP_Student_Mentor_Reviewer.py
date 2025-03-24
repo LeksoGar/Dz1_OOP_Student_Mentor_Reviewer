@@ -1,4 +1,5 @@
 class Student:
+    all_students = []
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -6,6 +7,7 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
+        Student.all_students.append(self)
 
     def add_courses(self, course_name):
         self.finished_courses.append(course_name)
@@ -49,6 +51,15 @@ class Student:
             return NotImplemented
         return self.calculate_avg_grade() < other.calculate_avg_grade()
 
+    @classmethod
+    def calculate_avg_student_grade(cls, course):
+        """Подсчет средней оценки за ДЗ по всем студентам в рамках конкретного курса"""
+        all_grades = []
+        for student in cls.all_students:
+            if course in student.grades:
+                all_grades.extend(student.grades[course])
+        return sum(all_grades) / len(all_grades) if all_grades else 0
+
 class Mentor:
     def __init__(self, name, surname):
         self.name = name
@@ -59,9 +70,12 @@ class Mentor:
         return f"Имя: {self.name}\nФамилия: {self.surname}"
 
 class Lecturer(Mentor):
+    all_lecturers = []
+
     def __init__(self,name, surname):
         super().__init__(name, surname)
         self.grades = {}
+        Lecturer.all_lecturers.append(self)
 
     def calculate_avg_grade(self):
         all_grades = []
@@ -84,6 +98,14 @@ class Lecturer(Mentor):
             return NotImplemented
         return self.calculate_avg_grade() < other.calculate_avg_grade()
 
+    @classmethod
+    def calculate_avg_lecturer_grade(cls, course):
+        all_grades = []
+        for lecturer in cls.all_lecturers:
+            if course in lecturer.grades:
+                all_grades.extend(lecturer.grades[course])
+        return sum(all_grades) / len(all_grades) if all_grades else 0
+
 class Reviewer(Mentor):
     def __init__(self,name, surname):
         super().__init__(name, surname)
@@ -103,19 +125,19 @@ class Reviewer(Mentor):
        return f"Имя: {self.name}\nФамилия: {self.surname}"
 
 # Функция для подсчета средней оценки за домашние задания по всем студентам в рамках конкретного курса
-def calculate_avg_student_grade(students, course):
-    all_grades = []
-    for student in students:
-        if course in student.grades:
-            all_grades.extend(student.grades[course])
-    return sum(all_grades) / len(all_grades) if all_grades else 0
+# def calculate_avg_student_grade(students, course):
+#     all_grades = []
+#     for student in students:
+#         if course in student.grades:
+#             all_grades.extend(student.grades[course])
+#     return sum(all_grades) / len(all_grades) if all_grades else 0
 
-def calculate_avg_lecturer_grade(lecturers, course):
-    all_grades = []
-    for lecturer in lecturers:
-        if course in lecturer.grades:
-            all_grades.extend(lecturer.grades[course])
-    return sum(all_grades) / len(all_grades) if all_grades else 0
+# def calculate_avg_lecturer_grade(lecturers, course):
+#     all_grades = []
+#     for lecturer in lecturers:
+#         if course in lecturer.grades:
+#             all_grades.extend(lecturer.grades[course])
+#     return sum(all_grades) / len(all_grades) if all_grades else 0
 
 # Создание экземпляров
 student1 = Student('Алексей', 'Гармаш','муж')
@@ -181,9 +203,13 @@ print("Сравнение лекторов:")
 print(f"Меньше ли средняя оценка за лекции у {lecturer2.name[:-1]}я в сравнении c {lecturer1.name}ом? -", lecturer2 < lecturer1)
 print(f"Равны ли средние оценки за лекции у {lecturer1.name}а и {lecturer2.name[:-1]}я? -", lecturer1 == lecturer2)
 print()
+
 # Подсчет средних оценок по курсу
-students = [student1, student2]
-lecturers = [lecturer1, lecturer2]
-print("Средняя оценка студентов по курсу Python:", calculate_avg_student_grade(students, 'Python'))
-print("Средняя оценка лекторов по курсу Python:", calculate_avg_student_grade(lecturers, 'Python'))
+print("Средняя оценка студентов по курсу Python:", Student.calculate_avg_student_grade('Python'))
+print("Средняя оценка лекторов по курсу Python:", Lecturer.calculate_avg_lecturer_grade('Python'))
+# students = [student1, student2]
+# lecturers = [lecturer1, lecturer2]
+# print("Средняя оценка студентов по курсу Python:", calculate_avg_student_grade(students, 'Python'))
+# print("Средняя оценка лекторов по курсу Python:", calculate_avg_student_grade(lecturers, 'Python'))
+
 
