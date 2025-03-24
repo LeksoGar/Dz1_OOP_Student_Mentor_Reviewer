@@ -1,5 +1,6 @@
 class Student:
     all_students = []
+
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -60,6 +61,7 @@ class Student:
                 all_grades.extend(student.grades[course])
         return sum(all_grades) / len(all_grades) if all_grades else 0
 
+
 class Mentor:
     def __init__(self, name, surname):
         self.name = name
@@ -68,6 +70,7 @@ class Mentor:
 
     def __str__(self):
         return f"Имя: {self.name}\nФамилия: {self.surname}"
+
 
 class Lecturer(Mentor):
     all_lecturers = []
@@ -106,6 +109,7 @@ class Lecturer(Mentor):
                 all_grades.extend(lecturer.grades[course])
         return sum(all_grades) / len(all_grades) if all_grades else 0
 
+
 class Reviewer(Mentor):
     def __init__(self,name, surname):
         super().__init__(name, surname)
@@ -124,22 +128,7 @@ class Reviewer(Mentor):
     def __str__(self):
        return f"Имя: {self.name}\nФамилия: {self.surname}"
 
-# Функция для подсчета средней оценки за домашние задания по всем студентам в рамках конкретного курса
-# def calculate_avg_student_grade(students, course):
-#     all_grades = []
-#     for student in students:
-#         if course in student.grades:
-#             all_grades.extend(student.grades[course])
-#     return sum(all_grades) / len(all_grades) if all_grades else 0
 
-# def calculate_avg_lecturer_grade(lecturers, course):
-#     all_grades = []
-#     for lecturer in lecturers:
-#         if course in lecturer.grades:
-#             all_grades.extend(lecturer.grades[course])
-#     return sum(all_grades) / len(all_grades) if all_grades else 0
-
-# Создание экземпляров
 student1 = Student('Алексей', 'Гармаш','муж')
 student2 = Student('Анна','Русова','жен')
 
@@ -149,13 +138,11 @@ lecturer2 = Lecturer('Учитель','Добрый')
 reviewer1 = Reviewer('Клавдия','Петрова')
 reviewer2 = Reviewer('Константин','Ватрушка')
 
-# Закрепление курсов
 student1.courses_in_progress.append('Python')
 student1.courses_in_progress.append('Git')
 student1.finished_courses.append('Введение в программирование')
 student2.courses_in_progress.append('Python')
 student2.finished_courses.append('Английский для всех сфер деятельности')
-
 
 lecturer1.courses_attached.append('Python')
 lecturer2.courses_attached.append('Python')
@@ -163,19 +150,16 @@ lecturer2.courses_attached.append('Python')
 reviewer1.courses_attached.append('Python')
 reviewer2.courses_attached.append('Python')
 
-# оценка лекторов студентами
 student1.rate_lecturer(lecturer1,'Python', 10)
 student1.rate_lecturer(lecturer1,'Python', 9)
 student2.rate_lecturer(lecturer2,'Python', 8)
 student2.rate_lecturer(lecturer2,'Python', 7)
 
-# Оценка студентов экспертами
 reviewer1.rate_hw(student1,'Python', 8)
 reviewer1.rate_hw(student1,'Python', 7)
 reviewer2.rate_hw(student2,'Python', 6)
 reviewer2.rate_hw(student2,'Python', 5)
 
-# Вывод информации
 print("Студенты:")
 print(student1)
 print()
@@ -194,7 +178,6 @@ print()
 print(reviewer2)
 print()
 
-# Сравнение студентов
 print("Сравнение студентов:")
 print(f"Меньше ли средняя оценка за домашние задания у {student2.name[:-1]}ы в сравнении c {student1.name[:-1]}ем? -", student2 < student1)
 print(f"Равны ли средние оценки за домашние задания у {student1.name[:-1]}я и {student2.name[:-1]}ы? -", student1 == student2)
@@ -204,12 +187,8 @@ print(f"Меньше ли средняя оценка за лекции у {lect
 print(f"Равны ли средние оценки за лекции у {lecturer1.name}а и {lecturer2.name[:-1]}я? -", lecturer1 == lecturer2)
 print()
 
-# Подсчет средних оценок по курсу
 print("Средняя оценка студентов по курсу Python:", Student.calculate_avg_student_grade('Python'))
 print("Средняя оценка лекторов по курсу Python:", Lecturer.calculate_avg_lecturer_grade('Python'))
-# students = [student1, student2]
-# lecturers = [lecturer1, lecturer2]
-# print("Средняя оценка студентов по курсу Python:", calculate_avg_student_grade(students, 'Python'))
-# print("Средняя оценка лекторов по курсу Python:", calculate_avg_student_grade(lecturers, 'Python'))
+
 
 
